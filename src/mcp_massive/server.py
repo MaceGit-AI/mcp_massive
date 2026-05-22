@@ -529,16 +529,17 @@ async def query_data(
 
 
 def run(transport: Literal["stdio", "sse", "streamable-http"] = "stdio") -> None:
+    """Run the Massive MCP server.
+
+    The endpoint index is built lazily on the first tool call.
+    """
     import os
 
     if transport in ("sse", "streamable-http"):
-        port = int(os.environ.get("PORT", "10000"))
+        mass_mcp.settings.host = "0.0.0.0"
+        mass_mcp.settings.port = int(os.environ.get("PORT", "10000"))
 
-        mass_mcp.run(
-            transport=transport,
-            host="0.0.0.0",
-            port=port,
-            path="/mcp",
-        )
-    else:
-        mass_mcp.run(transport)
+        if transport == "streamable-http":
+            mass_mcp.settings.streamable_http_path = "/mcp"
+
+    mass_mcp.run(transport=transport)
