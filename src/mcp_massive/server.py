@@ -52,6 +52,22 @@ mass_mcp = FastMCP(
         "call_api to fetch the data. Use store_as + query_data for multi-step analysis. "
         "Covers: equities, options, ETFs, indices, FX, crypto — real-time and historical."
     ),
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=[
+            "localhost:*",
+            "127.0.0.1:*",
+            "mcp-massive-aqnc.onrender.com",
+            "mcp-massive-aqnc.onrender.com:*",
+        ],
+        allowed_origins=[
+            "http://localhost:*",
+            "http://127.0.0.1:*",
+            "https://mcp-massive-aqnc.onrender.com",
+            "https://chatgpt.com",
+            "https://chat.openai.com",
+        ],
+    ),
 )
 
 METADATA_KEYS = {
